@@ -1,5 +1,6 @@
 package com.resto;
 
+import com.resto.model.ItemPesanan;
 import com.resto.model.Makanan;
 import com.resto.model.Menu;
 
@@ -41,6 +42,16 @@ public class Main {
         ((Makanan) menu1).setDipanaskan(true);
         tampilkanDetailMenu(menu1);
 
+        // 5. Simulasi ItemPesanan (relasi aggregation ke Menu)
+        System.out.println("\n--- SIMULASI ITEM PESANAN ---");
+        ItemPesanan item1 = new ItemPesanan(menu1, jumlahPesan, "Pedas sedang");
+        ItemPesanan item2 = new ItemPesanan(menu2, 1, "Bumbu pisah");
+        tampilkanDetailItem(item1);
+        tampilkanDetailItem(item2);
+
+        double totalKotor = item1.hitungSubtotal() + item2.hitungSubtotal();
+        System.out.printf("Total Kotor Pesanan: Rp %,.2f\n", totalKotor);
+
         System.out.println("\n====================================================");
         System.out.println("             PENGUJIAN KELAS SELESAI                ");
         System.out.println("====================================================");
@@ -53,6 +64,16 @@ public class Main {
                 menu.getHarga(),
                 menu.hitungHarga(),
                 menu.getStok()
+        );
+    }
+
+    private static void tampilkanDetailItem(ItemPesanan item) {
+        String catatan = item.getCatatan().isEmpty() ? "-" : item.getCatatan();
+        System.out.printf("%dx %-20s | Catatan: %-14s | Subtotal: Rp %,.2f\n",
+                item.getJumlah(),
+                item.getMenu().getNama(),
+                catatan,
+                item.hitungSubtotal()
         );
     }
 }
